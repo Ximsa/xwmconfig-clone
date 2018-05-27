@@ -1,0 +1,35 @@
+#!/bin/bash
+#path containing the desktop information
+sessionpath="/usr/share/xsessions/"
+
+#path containing xinitrc
+xinitrc="${HOME}/.xinitrc"
+
+#maximal menu entries to display
+maxi=8
+#menu width
+width=57
+
+# add options
+options=
+i=0
+wms="$(ls $sessionpath | tr " " "\n")"
+for wm in $wms
+do
+	i=$((i+1))
+	options="${options} ${i} ${wm}"
+done
+if [ $i -gt $maxi ];
+then
+	i=$maxi
+fi
+
+#let the user decide which de/wm he wants
+choice=$(dialog --menu "X Window Manager Configuration" $((i+7)) $width $i ${options[@]} 2>&1 >/dev/tty)
+choice=$(echo $wms | tr " " "\n" | head -$choice | tail -1)
+
+#read the desktop file and extract the executable name
+wme=$(grep "Exec" "$sessionpath$choice" | tr "=" "\n" | head -2 | tail -1)
+
+#write executable name in ~/.xinitrc
+echo $wme > $xinitrc

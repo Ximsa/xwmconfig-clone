@@ -3,4 +3,6 @@ A textbased script to choose your windowmanager, inspired by slackware's "xwmcon
 
 Installation:
 Copy this script into a folder, which gets referenced by the PATH enviroment variable.<br />
-You may need to apply chmod +x 
+You may need to apply chmod +x <br />
+<br />
+Requires "dialog" to be installed
